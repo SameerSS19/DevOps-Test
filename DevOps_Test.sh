@@ -57,3 +57,14 @@ display_process_monitoring() {
   echo -e "Top 5 Processes by Memory Usage:"
   ps -eo pid,comm,%cpu,%mem --sort=-%mem | head -n 6
 }
+
+
+
+# Display service status
+display_service_status() {
+  echo -e "Service Status:"
+  for service in sshd nginx apache2 iptables; do
+    echo -n "$service: "
+    systemctl is-active --quiet $service && echo "Active" || echo "Inactive"
+  done
+}
