@@ -68,3 +68,35 @@ display_service_status() {
     systemctl is-active --quiet $service && echo "Active" || echo "Inactive"
   done
 }
+
+
+# Display the custom dashboard based on command-line arguments
+display_custom_dashboard() {
+  case $1 in
+    -cpu)
+      show_top_apps
+      ;;
+    -memory)
+      show_memory_usage
+      ;;
+    -network)
+      show_network
+      ;;
+    -disk)
+      show_disk_usage
+      ;;
+    -load)
+      show_system_load
+      ;;
+    -process)
+      show_process_monitoring
+      ;;
+    -services)
+      show_service_status
+      ;;
+    *)
+      echo "Usage: $0 [-cpu|-memory|-network|-disk|-load|-process|-services]"
+      exit 1
+      ;;
+  esac
+}
