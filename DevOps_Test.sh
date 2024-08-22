@@ -39,3 +39,12 @@ display_system_load() {
   echo -e "CPU Usage Breakdown:"
   mpstat
 }
+
+
+# Display memory usage
+display_memory_usage() {
+  echo -e "Memory Usage:"
+  free -h
+  echo -e "Swap Memory Usage:"
+  swapon --show
+}
