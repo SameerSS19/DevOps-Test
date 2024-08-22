@@ -35,11 +35,10 @@ display_disk_usage() {
 # Display system load
 display_system_load() {
   echo -e "System Load Average:"
-  uptime
+  uptime | awk -F'load average' '{print $2}'
   echo -e "CPU Usage Breakdown:"
   mpstat
 }
-
 
 # Display memory usage
 display_memory_usage() {
@@ -47,4 +46,14 @@ display_memory_usage() {
   free -h
   echo -e "Swap Memory Usage:"
   swapon --show
+}
+
+# Display process monitoring
+display_process_monitoring() {
+  echo -e "Number of Active Processes:"
+  ps aux | wc -l
+  echo -e "Top 5 Processes by CPU Usage:"
+  ps -eo pid,comm,%cpu,%mem --sort=-%cpu | head -n 6
+  echo -e "Top 5 Processes by Memory Usage:"
+  ps -eo pid,comm,%cpu,%mem --sort=-%mem | head -n 6
 }
