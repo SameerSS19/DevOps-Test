@@ -72,31 +72,45 @@ display_service_status() {
 
 # Display the custom dashboard based on command-line arguments
 display_custom_dashboard() {
-  case $1 in
-    -cpu)
-      show_top_apps
-      ;;
-    -memory)
-      show_memory_usage
-      ;;
-    -network)
-      show_network
-      ;;
-    -disk)
-      show_disk_usage
-      ;;
-    -load)
-      show_system_load
-      ;;
-    -process)
-      show_process_monitoring
-      ;;
-    -services)
-      show_service_status
-      ;;
-    *)
-      echo "Usage: $0 [-cpu|-memory|-network|-disk|-load|-process|-services]"
-      exit 1
-      ;;
-  esac
+    display_top_apps
+    echo ""
+    display_network_stats
+    echo ""
+    display_disk_usage
+    echo ""
+    display_system_load
+    echo ""
+    display_memory_usage
+    echo ""
+    display_process_monitoring
+    echo ""
+    display_service_monitoring
 }
+
+case "$1" in
+    -cpu)
+        display_system_load
+        ;;
+    -memory)
+        display_memory_usage
+        ;;
+    -network)
+        display_network_stats
+        ;;
+    -disk)
+        display_disk_usage
+        ;;
+    -process)
+        display_process_monitoring
+        ;;
+    -services)
+        display_service_monitoring
+        ;;
+    -all | *)
+        while true; do
+            clear
+            display_custom_dashboard
+            sleep $REFRESH_INTERVAL
+        done
+        ;;
+esac
