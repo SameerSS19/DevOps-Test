@@ -9,7 +9,6 @@ display_top_apps() {
 }
 
 
-#Network Monitoring
 # Display network monitoring
 display_network() {
   echo -e "Network Monitoring:"
@@ -23,4 +22,11 @@ display_network() {
   netstat -i | awk '/^eth0/ {print "Received: " $3 " Transmitted: " $7 " (Packets)"}'
   echo -e "nNumber of MB In and Out:"
   vnstat --oneline | awk -F';' '{print "In: " $10 " Out: " $12}'
+}
+
+
+# Display disk usage
+display_disk_usage() {
+  echo -e "Disk Usage by Mounted Partitions:"
+  df -h | awk '$5 > 80 {print "WARNING: " $0} $5 <= 80 {print $0}'
 }
