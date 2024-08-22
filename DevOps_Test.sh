@@ -30,3 +30,12 @@ display_disk_usage() {
   echo -e "Disk Usage by Mounted Partitions:"
   df -h | awk '$5 > 80 {print "WARNING: " $0} $5 <= 80 {print $0}'
 }
+
+
+# Display system load
+display_system_load() {
+  echo -e "System Load Average:"
+  uptime
+  echo -e "CPU Usage Breakdown:"
+  mpstat
+}
