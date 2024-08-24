@@ -111,3 +111,41 @@ log() {
     grep "Failed password" /var/log/auth.log | tail -n 50
     echo
 } >> "$REPORT_FILE"
+
+
+# Server Hardening Steps
+{
+    echo "Server Hardening Steps"
+    echo "SSH Configuration"
+    echo "Disabling root password authentication..."
+    sed -i 's/^#\?PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+    echo "Implementing SSH key-based authentication"
+    echo "Ensure authorized_keys are securely stored."
+    echo
+    echo "IPv6 Configuration"
+    if [ "$DISABLE_IPV6" == "true" ]; then
+        sysctl -w net.ipv6.conf.all.disable_ipv6=1
+        sysctl -w net.ipv6.conf.default.disable_ipv6=1
+        sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+        echo "IPv6 has been disabled."
+    else
+        echo "IPv6 disabling is not configured."
+    fi
+    echo
+    echo "Securing the Bootloader"
+    echo "Please set a GRUB password manually using the command:"
+    echo "  grub2-set-password -p PASSWORD"
+    echo
+    echo "Firewall Configuration"
+    # Placeholder for iptables rules
+    echo "Implement iptables rules as per security policy."
+    echo
+    echo "Automatic Updates"
+    if command -v apt-get >/dev/null 2>&1; then
+        apt-get install unattended-upgrades -y
+        dpkg-reconfigure --priority=low unattended-upgrades
+    else
+        echo "Automatic updates not configured for non-apt systems."
+    fi
+    echo
+} >> "$REPORT_FILE"
