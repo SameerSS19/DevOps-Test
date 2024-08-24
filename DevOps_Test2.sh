@@ -149,3 +149,12 @@ log() {
     fi
     echo
 } >> "$REPORT_FILE"
+
+
+# Custom Security Checks
+{
+    echo "Custom Security Checks"
+    # Example: source $CUSTOM_SECURITY_CHECKS_SCRIPT
+    echo "Custom security checks not implemented."
+    echo
+} >> "$REPORT_FILE"
