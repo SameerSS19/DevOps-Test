@@ -51,3 +51,26 @@ log() {
     netstat -tuln
     echo
 } >> "$REPORT_FILE"
+
+
+# Firewall and Network Security
+{
+    echo "Firewall and Network Security"
+    echo "Firewall Status"
+    if command -v ufw >/dev/null 2>&1; then
+        ufw status verbose
+    elif command -v iptables >/dev/null 2>&1; then
+        iptables -L -v -n
+    else
+        echo "No firewall detected."
+    fi
+    echo
+    echo "Open Ports"
+    ss -tuln
+    echo
+    echo "IP Forwarding Configuration"
+    sysctl net.ipv4.ip_forward
+    sysctl net.ipv6.conf.all.forwarding
+    echo
+} >> "$REPORT_FILE"
+
