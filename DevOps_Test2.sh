@@ -86,3 +86,19 @@ log() {
     echo "Public vs. Private IP classification not implemented."
     echo
 } >> "$REPORT_FILE"
+
+
+# Security Updates and Patching
+{
+    echo "Security Updates and Patching"
+    echo "Available Security Updates"
+    if command -v apt-get >/dev/null 2>&1; then
+        apt-get update -y
+        apt-get upgrade -s
+    elif command -v yum >/dev/null 2>&1; then
+        yum check-update
+    else
+        echo "No package manager detected."
+    fi
+    echo
+} >> "$REPORT_FILE"
