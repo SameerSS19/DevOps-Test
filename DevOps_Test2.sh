@@ -102,3 +102,12 @@ log() {
     fi
     echo
 } >> "$REPORT_FILE"
+
+
+# Log Monitoring
+{
+    echo "Log Monitoring"
+    echo "Recent Suspicious SSH Log Entries"
+    grep "Failed password" /var/log/auth.log | tail -n 50
+    echo
+} >> "$REPORT_FILE"
