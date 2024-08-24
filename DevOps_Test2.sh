@@ -158,3 +158,16 @@ log() {
     echo "Custom security checks not implemented."
     echo
 } >> "$REPORT_FILE"
+
+
+# Reporting and Alerting
+{
+    echo "Reporting and Alerting"
+    echo "Security audit completed. Review the report at $REPORT_FILE for detailed findings."
+    echo
+} >> "$REPORT_FILE"
+
+# End of report
+{
+    echo "End of Report"
+} >> "$REPORT_FILE"
