@@ -74,3 +74,15 @@ log() {
     echo
 } >> "$REPORT_FILE"
 
+
+# IP and Network Configuration Checks
+{
+    echo "IP and Network Configuration Checks"
+    echo "List of IP Addresses"
+    ip -o addr show | awk '{print $2, $4}'
+    echo
+    echo "IP Address Classification (Public/Private)"
+    # Placeholder for actual IP classification logic
+    echo "Public vs. Private IP classification not implemented."
+    echo
+} >> "$REPORT_FILE"
