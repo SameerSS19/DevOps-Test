@@ -6,13 +6,19 @@ log() {
 }
 
 # User and Group Audits
-log "User and Group Audits"
-run_and_log "cat /etc/passwd" "Listing all users and groups"
-run_and_log "cat /etc/group" "Listing all groups"
-run_and_log "awk -F: '$3 == 0 {print \$1}' /etc/passwd" "Users with UID 0 (root privileges)"
-run_and_log "grep -E '^[^:]+:[^:]*$' /etc/shadow" "Users without passwords"
-run_and_log "find / -perm -04000 -type f" "Files with SUID bits set"
-run_and_log "find / -perm -02000 -type f" "Files with SGID bits set"
+{
+    echo "User and Group Audits"
+    echo "List of Users and Groups"
+    cut -d: -f1 /etc/passwd
+    cut -d: -f1 /etc/group
+    echo
+    echo "Users with UID 0 (Root Privileges)"
+    awk -F: '$3 == 0 {print $1}' /etc/passwd
+    echo
+    echo "Users Without Passwords or with Weak Passwords"
+    awk -F: '($2 == "" || $2 == "x") {print $1}' /etc/shadow
+    echo
+} >> "$REPORT_FILE"
 
 
 # File and Directory Permissions
@@ -26,5 +32,22 @@ run_and_log "find / -perm -02000 -type f" "Files with SGID bits set"
     echo
     echo "Files with SUID or SGID Bits Set"
     find / -perm -4000 -o -perm -2000 -type f 2>/dev/null
+    echo
+} >> "$REPORT_FILE"
+
+
+# Service Audits
+{
+    echo "Service Audits"
+    echo "List of Running Services"
+    systemctl list-units --type=service --state=running
+    echo
+    echo "Critical Services Status"
+    for service in sshd iptables; do
+        systemctl is-active --quiet "$service" && echo "$service is running." || echo "$service is not running."
+    done
+    echo
+    echo "Services Listening on Ports"
+    netstat -tuln
     echo
 } >> "$REPORT_FILE"
